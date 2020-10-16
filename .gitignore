@@ -1,0 +1,24 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/crmapp/node_modules
+/server/node_modules
+/crmapp/.pnp
+/crmapp.pnp.js
+
+# testing
+/crmapp/coverage
+
+# production
+/crmapp/build
+
+# misc
+/crmapp.DS_Store
+/crmapp.env.local
+/crmapp.env.development.local
+/crmapp.env.test.local
+/crmapp.env.production.local
+
+/crmappnpm-debug.log*
+/crmappyarn-debug.log*
+/crmappyarn-error.log*
