@@ -4,7 +4,7 @@
 /crmapp/node_modules
 /server/node_modules
 /crmapp/.pnp
-/crmapp.pnp.js
+/crmapp/.pnp.js
 
 # testing
 /crmapp/coverage
@@ -13,12 +13,12 @@
 /crmapp/build
 
 # misc
-/crmapp.DS_Store
-/crmapp.env.local
-/crmapp.env.development.local
-/crmapp.env.test.local
-/crmapp.env.production.local
+/crmapp/.DS_Store
+/crmapp/.env.local
+/crmapp/.env.development.local
+/crmapp/.env.test.local
+/crmapp/.env.production.local
 
-/crmappnpm-debug.log*
-/crmappyarn-debug.log*
-/crmappyarn-error.log*
+/crmapp/npm-debug.log*
+/crmapp/yarn-debug.log*
+/crmapp/yarn-error.log*
