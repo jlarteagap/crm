@@ -23,8 +23,9 @@ enum CategoryClient{
     PREMIUM
 }
 type Query {
-    getClients(limit: Int): [Client]
+    getClients(limit: Int, offset: Int): [Client]
     getClient(id:ID): Client
+    totalClients : String
 }
 input OrdersInput {
     product: String

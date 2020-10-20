@@ -4,8 +4,8 @@ import { Clients } from './db'
 
 export const resolvers = {
     Query: {
-        getClients : (root, {limit}) => {
-            return Clients.find({}).limit(limit)
+        getClients : (root, {limit, offset}) => {
+            return Clients.find({}).limit(limit).skip(offset)
         },
         getClient : (root, { id }) => {
             return new Promise((resolve, object) => {
@@ -13,6 +13,15 @@ export const resolvers = {
                     if(error) rejects(error)
                     else resolve(client)
                 });
+            })
+        },
+        totalClients : (root) => {
+            return new Promise((resolve, object) => {
+                /* countDocument nos permite contar cuantos datos hay en la BD */ 
+                Clients.countDocuments({}, (error, count) =>{
+                    if(error) rejects(error)
+                    else resolve(count)
+                })
             })
         }
     },
