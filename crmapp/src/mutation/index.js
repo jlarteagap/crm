@@ -32,3 +32,28 @@ mutation deleteClient($id: ID!){
 }
 
 `;
+
+export const ADD_PRODUCT = gql`
+  mutation newProduct ($input: ProductInput){
+    newProduct(input: $input){
+      name
+    }
+  }
+`;
+
+export const UPDATE_PRODUCT = gql`
+  mutation updateProduct($input: ProductInput){
+    updateProduct(input: $input){
+      name
+      price
+      stock
+    }
+  }
+`;
+
+export const DELETE_CLIENT = gql`
+  mutation deleteProduct($id: ID!){
+    deleteProduct(id: $id)
+  }
+
+`;

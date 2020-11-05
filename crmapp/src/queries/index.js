@@ -27,3 +27,23 @@ export const CLIENT_QUERY = gql `
     }
   }
 `;
+
+export const PRODUCTS_QUERY = gql`
+{
+  getProducts{
+    name
+    price
+    stock
+  }
+}
+`;
+
+export const PRODUCT_QUERY = gql`
+  query getProduct($id :ID){
+    getProduct(id: $id){
+      name
+      price
+      stock
+    }
+}`;
+

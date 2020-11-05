@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { Clients } from './db'
+import { Clients, Products } from './db'
 
 export const resolvers = {
     Query: {
@@ -21,6 +21,17 @@ export const resolvers = {
                 Clients.countDocuments({}, (error, count) =>{
                     if(error) rejects(error)
                     else resolve(count)
+                })
+            })
+        },
+        getProducts : (root, { limit, offset}) => {
+            return Products.find({}).limit(limit).skip(offset)
+        },
+        getProduct : (root, {id}) => {
+            return new Promise((resolve, object) => {
+                Products.findById(id, (error, product) =>{
+                    if(error) rejects(error)
+                    else resolve(product)
                 })
             })
         }
@@ -57,11 +68,44 @@ export const resolvers = {
         },
         deleteClient: (root, {id}) => {
             return new Promise((resolve, object) =>{
-                Clients.findOneAndRemove({_id : id}, (error) =>{
+                Clients.findOneAndDelete({_id : id}, (error) =>{
                     if(error) rejects(error)
                     else resolve("Se eliminó correctamente")
                 })
             });
+        },
+        newProduct: (root, {input}) => {
+            const newProduct = new Products({
+                name: input.name,
+                price: input.price,
+                stock: input.stock
+            });
+            // mongodb creara un ID 
+            newProduct.id = newProduct._id;
+
+            return new Promise((resolve, object) => {
+                //tratamos de guardar en la db
+                newProduct.save((error) => {
+                    if(error) rejects(error)
+                    else resolve(newProduct)
+                })
+            })
+        },
+        updateProduct : ( root, { input}) => {
+             return new Promise((resolve, object) => {
+                 Products.findOneAndUpdate({id: input.id}, input, {new: true, upsert: true}, (error, product) =>{
+                     if(error) rejects(error)
+                     else resolve(product)
+                 })
+             })
+        },
+        deleteProduct : (root, {id}) => {
+            return new Promise((resolve, object) =>{
+                Products.findOneAndDelete({_id : id}, (error) =>{
+                    if(error) rejects(error)
+                    else resolve("Se eliminó correctamente")
+                })
+            })
         }
     }
 }
