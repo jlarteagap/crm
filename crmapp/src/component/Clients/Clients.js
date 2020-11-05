@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { Query, Mutation } from 'react-apollo'
 import { Link } from 'react-router-dom'
-import { CLIENTS_QUERY } from '../queries'
-import { DELETE_CLIENT } from '../mutation'
+import { CLIENTS_QUERY } from '../../queries'
+import { DELETE_CLIENT } from '../../mutation'
 
-import Paginator from './Paginator'
+import Paginator from '../Layout/Paginator'
 
 class Clients extends Component {
      /* limite para las paginas, se la pasamos al component paginator como props */ 

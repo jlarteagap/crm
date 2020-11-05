@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { ADD_CLIENT } from '../mutation';
+import { ADD_CLIENT } from '../../mutation';
 import { Mutation } from 'react-apollo'
 
 class NewClient extends Component{
