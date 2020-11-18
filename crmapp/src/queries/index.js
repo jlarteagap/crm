@@ -31,6 +31,7 @@ export const CLIENT_QUERY = gql `
 export const PRODUCTS_QUERY = gql`
 {
   getProducts{
+    id
     name
     price
     stock
