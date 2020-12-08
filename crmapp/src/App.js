@@ -31,11 +31,11 @@ class App extends Component {
             <Header />
               <div className="container">
                 <Switch>
-                  <Route exact path="/"><Clients /></Route> 
-                  <Route exact path="/client/edit/:id"><EditClient /></Route>
-                  <Route exact path="/client/add"><NewClient /></Route>
-                  <Route exact path="/products/new"><NewProduct /> </Route>
+                  <Route exact path="/clients"><Clients /></Route> 
+                  <Route exact path="/clients/edit/:id"><EditClient /></Route>
+                  <Route exact path="/clients/new"><NewClient /></Route>
                   <Route exact path="/products"><Products /> </Route>
+                  <Route exact path="/products/new"><NewProduct /> </Route>
                   <Route exact path="/products/edit/:id"><EditProduct /> </Route>
                 </Switch>
               </div>

@@ -4,12 +4,17 @@ import { Link } from 'react-router-dom'
 import { CLIENTS_QUERY } from '../../queries'
 import { DELETE_CLIENT } from '../../mutation'
 
+import Exit from '../Alert/exit';
 import Paginator from '../Layout/Paginator'
 
 class Clients extends Component {
      /* limite para las paginas, se la pasamos al component paginator como props */ 
     limit = 10;
     state = {
+        alert: {
+            show: false,
+            message: ''
+        },
         page: {
             offset: 0,
             actual: 1
@@ -34,6 +39,10 @@ class Clients extends Component {
     }
 
     render(){
+        // Mostrar alerta
+        const {alert: {show, message} } = this.state;
+        const showAlert = (show) ? <Exit message={message} /> : '';
+
         return(    
             <Query query = { CLIENTS_QUERY } pollInterval = {1000} variables = {{ limit: this.limit, offset: this.state.page.offset }}>
         {({ loading, error, data, startPolling, stopPolling }) => {
@@ -43,6 +52,9 @@ class Clients extends Component {
             return(
                 <Fragment>
                     <h2>Listado de clientes</h2>
+                    {/* Alerta */}
+                    { showAlert }
+
                     <ul className="list-group m-4">
                         {data.getClients.map(client => {
                             const {id} = client
@@ -53,7 +65,29 @@ class Clients extends Component {
                                             {client.name} {client.lastname}
                                         </div>
                                         <div className="col-md-4 d-flex justify-content-end">
-                                            <Mutation mutation={DELETE_CLIENT}>
+                                            <Mutation 
+                                                mutation={DELETE_CLIENT}
+                                                onCompleted={(data) => {
+                                                    // console.log(data)
+                                                    this.setState({
+                                                        alert:{
+                                                            show: true,
+                                                            message: data.deleteClient
+                                                        }
+                                                    }, () => {
+                                                        // Tiene un Callback que hara que se ejecute algo despues de eso.
+                                                        setTimeout(() => {
+                                                            this.setState({
+                                                                alert: {
+                                                                    show: false,
+                                                                    message: ''
+                                                                }
+                                                            })
+                                                        }, 3000)
+                                                    }
+                                                    )
+                                                }}
+                                                >
                                                 {deleteClient => (
                                                     <button 
                                                     type="button" 
@@ -69,7 +103,7 @@ class Clients extends Component {
                                                     </button>
                                                     )}
                                             </Mutation>
-                                            <Link to={`/client/edit/${client.id}`} className="btn btn-success d-block d-md-inline-block">
+                                            <Link to={`/clients/edit/${client.id}`} className="btn btn-success d-block d-md-inline-block">
                                                 Editar cliente
                                             </Link>
                                         </div> 
@@ -80,7 +114,7 @@ class Clients extends Component {
                     </ul>
                     <Paginator
                         actual = {this.state.page.actual}
-                        totalClients = {data.totalClients}
+                        total = {data.totalClients}
                         limit = {this.limit}
                         prevPage = {this.prevPage}
                         nextPage = {this.nextPage}

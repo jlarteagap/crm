@@ -11,9 +11,23 @@ const Header = () => (
 
             <div className="collapse navbar-collapse" id="navegacion">
                 <ul className="navbar-nav ml-auto text-right">
-                    <li className="nav-item active">
-                        <Link className="btn btn-success mr-2" to="/client/add">Nuevo Cliente</Link>
-                        <Link className="btn btn-success" to="/products/new">Nuevo Producto</Link>
+                    <li className="nav-item dropdown">
+                        <button className="nav-link dropdown-toggle btn-blog btn btn-success " data-toggle="dropdown">
+                            Clientes
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="navegation">
+                            <Link to="/clients" className="dropdown-item">Ver Clientes</Link>
+                            <Link to="/clients/new" className="dropdown-item">Agregar Cliente</Link>
+                        </div>
+                    </li>
+                    <li className="ml-2 nav-item dropdown">
+                        <button className="nav-link dropdown-toggle btn-blog btn btn-success " data-toggle="dropdown">
+                            Productos
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="navegation">
+                            <Link to="/products" className="dropdown-item">Ver Productos</Link>
+                            <Link to="/products/new" className="dropdown-item">Agregar Productos</Link>
+                        </div>
                     </li>
                 </ul>
             </div>

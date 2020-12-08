@@ -34,6 +34,15 @@ export const resolvers = {
                     else resolve(product)
                 })
             })
+        },
+        totalProducts : (root) => {
+            return new Promise((resolve, object) => {
+                /* countDocument nos permite contar cuantos datos hay en la BD */ 
+                Products.countDocuments({}, (error, count) =>{
+                    if(error) rejects(error)
+                    else resolve(count)
+                })
+            })
         }
     },
     Mutation: {
@@ -70,7 +79,7 @@ export const resolvers = {
             return new Promise((resolve, object) =>{
                 Clients.findOneAndDelete({_id : id}, (error) =>{
                     if(error) rejects(error)
-                    else resolve("Se eliminó correctamente")
+                    else resolve("El Cliente se eliminó correctamente")
                 })
             });
         },
@@ -93,17 +102,19 @@ export const resolvers = {
         },
         updateProduct : ( root, { input}) => {
              return new Promise((resolve, object) => {
-                 Products.findOneAndUpdate({id: input.id}, input, {new: true, upsert: true}, (error, product) =>{
+                 Products.findOneAndUpdate({_id: input.id}, input, {new: true, upsert: true}, (error, product) =>{
                      if(error) rejects(error)
                      else resolve(product)
                  })
              })
         },
+
+ 
         deleteProduct : (root, {id}) => {
             return new Promise((resolve, object) =>{
                 Products.findOneAndDelete({_id : id}, (error) =>{
                     if(error) rejects(error)
-                    else resolve("Se eliminó correctamente")
+                    else resolve("El producto se eliminó correctamente")
                 })
             })
         }
