@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { ADD_CLIENT } from '../mutation';
+import { ADD_CLIENT } from '../../mutation';
 import { Mutation } from 'react-apollo'
 
 class NewClient extends Component{
@@ -50,7 +50,7 @@ class NewClient extends Component{
                 <div className="row justify-content-center">
                 <Mutation 
                     mutation={ADD_CLIENT}
-                    onCompleted = {() => this.props.history.push('/')}>
+                    onCompleted = {() => this.props.history.push('/clients')}>
                     
                     {newclient => (
                     <form className="col-md-8 m-3" 

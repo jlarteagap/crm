@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {UPDATE_CLIENT} from '../mutation';
+import {UPDATE_CLIENT} from '../../mutation';
 import {Mutation} from 'react-apollo';
 import { withRouter } from 'react-router-dom'
 
@@ -41,7 +41,7 @@ class FormEdit extends Component {
                 <Mutation 
                     mutation={UPDATE_CLIENT}
                     onCompleted = {() => this.props.refetch().then(() => {
-                        this.props.history.push('/')
+                        this.props.history.push('/clients')
                     })}
                     >
                     {updateClient => (

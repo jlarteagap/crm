@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter} from 'react-router-dom'
-import { CLIENT_QUERY } from '../queries';
+import { CLIENT_QUERY } from '../../queries';
 import {Query } from 'react-apollo';
 
 import FormClient from './FormEditClient';

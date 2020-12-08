@@ -37,6 +37,7 @@ type Query {
 
     getProducts(limit: Int, offset: Int): [Product]
     getProduct(id: ID) : Product
+    totalProducts : String
 }
 input OrdersInput {
     product: String

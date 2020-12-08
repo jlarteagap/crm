@@ -4,7 +4,7 @@ class Paginator extends Component {
     state = {
         paginator: {
             /* Al total de clientes lo dividimos entre el limite y el resultado lo redondeamos hacia arriba.*/
-            pages: Math.ceil(this.props.totalClients / this.props.limit)
+            pages: Math.ceil(this.props.total / this.props.limit)
         }
     }
     render(){
