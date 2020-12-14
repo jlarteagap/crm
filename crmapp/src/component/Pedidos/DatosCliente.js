@@ -13,7 +13,6 @@ const DatosCliente = ({id}) => {
                     if(loading) return 'Cargando...'
                     if(error) return `Error ${error.message}`
 
-                    console.log(data)
                     const {name, lastname, enterprise, age, category, emails} = data.getClient;
                     return(
                         <ul className="list-unstyled my-5">
