@@ -6,7 +6,6 @@ type Client {
     emails: [Email]
     age: Int
     category: CategoryClient
-    orders: [Order]
 }
 
 type Product {
@@ -15,9 +14,19 @@ type Product {
     price: Int
     stock: Int
 }
-type Order {
-    product: String
-    price: Int
+
+type Pedido {
+    id: ID
+    pedido: [PedidoProducto]
+    total: Int
+    fecha: String
+    cliente: ID
+    estado: EstadoPedidos
+}
+
+type PedidoProducto{
+    id: ID
+    cantidad: Int
 }
 
 type Email {
@@ -39,10 +48,7 @@ type Query {
     getProduct(id: ID) : Product
     totalProducts : String
 }
-input OrdersInput {
-    product: String
-    price: Int
-}
+
 input EmailInput{
     email: String
 }
@@ -54,7 +60,6 @@ input ClientInput {
     emails: [EmailInput]
     age: Int!
     category: CategoryClient!
-    orders: [OrdersInput]
 }
 
 input ProductInput {
@@ -63,6 +68,26 @@ input ProductInput {
     price: Int
     stock: Int
 }
+enum EstadoPedidos {
+    PENDIENTE
+    CANCELADO
+    APROBADO
+}
+
+input PedidoInput {
+    id: ID
+    pedido: [PedidoProductoInput]
+    total: Int
+    fecha: String
+    cliente: ID
+    estado: EstadoPedidos
+}
+
+input PedidoProductoInput{
+    id: ID
+    cantidad: Int
+}
+
 
 type Mutation{
     newClient(input: ClientInput) : Client
@@ -72,4 +97,6 @@ type Mutation{
     newProduct(input: ProductInput) : Product
     updateProduct(input: ProductInput) : Product
     deleteProduct(id: ID) : String
+
+    nuevoPedido(input: PedidoInput) : Pedido
 }
