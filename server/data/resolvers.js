@@ -24,8 +24,13 @@ export const resolvers = {
                 })
             })
         },
-        getProducts : (root, { limit, offset}) => {
-            return Products.find({}).limit(limit).skip(offset)
+        getProducts : (root, { limit, offset, stock}) => {
+            // Agregamos un filto para filtrar productos que tengan mas de 0 en inventario
+            let filtro;
+            if(stock) {
+                filtro = {stock : {$gt: 0}} 
+            }
+            return Products.find(filtro).limit(limit).skip(offset)
         },
         getProduct : (root, {id}) => {
             return new Promise((resolve, object) => {
@@ -132,6 +137,19 @@ export const resolvers = {
             nuevoPedido.id = nuevoPedido._id;
 
             return new Promise((resolve, object) => {
+
+                // recorrer pedidos y actualizar stock
+                input.pedido.forEach(pedido => {
+                    Products.updateOne({_id: pedido.id},
+                        {
+                            "$inc": {"stock" : -pedido.cantidad}
+                        }, function(error) {
+                            if(error) return new Error(error)
+                        }
+                        )
+                });
+
+
                 nuevoPedido.save((error) =>{
                     if(error) rejects(error)
                     else resolve(nuevoPedido)

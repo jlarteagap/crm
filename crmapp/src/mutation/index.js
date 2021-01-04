@@ -57,3 +57,11 @@ export const DELETE_PRODUCT = gql`
   }
 
 `;
+
+export const NUEVO_PEDIDO = gql`
+  mutation nuevoPedido($input: PedidoInput){
+    nuevoPedido(input: $input){
+      id
+    }
+  }
+`
