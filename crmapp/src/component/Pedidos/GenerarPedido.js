@@ -22,7 +22,7 @@ const GenerarPedido = (props ) => {
                     type="button"
                     className="btn btn-warning mt-5"
                     onClick = {e => {
-                        // Quitamos lo que no se necesita para crear el input 
+                        // Quitamos lo que no se necesita para crear el input  en este caso, name, stock y price
                         const productosInput = props.productos.map(({ name, stock, price, ...objeto}) => objeto);
 
                         // Creamos el input con los datos para enviar en el mutation 

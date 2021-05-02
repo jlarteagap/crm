@@ -47,6 +47,8 @@ type Query {
     getProducts(limit: Int, offset: Int, stock: Boolean): [Product]
     getProduct(id: ID) : Product
     totalProducts : String
+    
+    obtenerPedidos(cliente : String) : [Pedido]
 }
 
 input EmailInput{
@@ -99,4 +101,5 @@ type Mutation{
     deleteProduct(id: ID) : String
 
     nuevoPedido(input: PedidoInput) : Pedido
+    actualizarEstado(input: PedidoInput): String
 }

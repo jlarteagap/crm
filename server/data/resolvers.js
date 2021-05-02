@@ -28,6 +28,7 @@ export const resolvers = {
             // Agregamos un filto para filtrar productos que tengan mas de 0 en inventario
             let filtro;
             if(stock) {
+                //$gt es una funcion de mongodb que filtra, en este caso los mayores a 0
                 filtro = {stock : {$gt: 0}} 
             }
             return Products.find(filtro).limit(limit).skip(offset)
@@ -46,6 +47,14 @@ export const resolvers = {
                 Products.countDocuments({}, (error, count) =>{
                     if(error) rejects(error)
                     else resolve(count)
+                })
+            })
+        },
+        obtenerPedidos : (root, {cliente}) => {
+            return new Promise((resolve, object) =>{
+                Pedidos.find({cliente: cliente}, (error, pedido) => {
+                    if(error) rejects(error)
+                    else resolve(pedido)
                 })
             })
         }
@@ -137,22 +146,40 @@ export const resolvers = {
             nuevoPedido.id = nuevoPedido._id;
 
             return new Promise((resolve, object) => {
+                nuevoPedido.save((error) =>{
+                    if(error) rejects(error)
+                    else resolve(nuevoPedido)
+                })
+            })
+        }, 
 
-                // recorrer pedidos y actualizar stock
+        actualizarEstado : (root, {input}) => {
+            return new Promise((resolve, object) => {
+
+                const {estado } = input
+
+                // nos aseguramos que los cambios de stock se hagan dependiendo si se aprueban o no el pedido 
+                let signo
+                if(estado === "APROBADO"){
+                    signo = '-'
+                } else if( estado === "CANCELADO"){
+                    signo = '+'
+                }
+                // recorrer pedidos y actualizar stock input.pedido es un array con la cantidad de pedidos que y el producto que se va a comprar.
                 input.pedido.forEach(pedido => {
+                       
                     Products.updateOne({_id: pedido.id},
+                        // inc es un metodo de mongo lo que hace es incrementar o sumar aqui se lo usar para restar la cantidad de pedido.
                         {
-                            "$inc": {"stock" : -pedido.cantidad}
+                            "$inc": {"stock" : `${signo}${pedido.cantidad}`}
                         }, function(error) {
                             if(error) return new Error(error)
                         }
                         )
                 });
-
-
-                nuevoPedido.save((error) =>{
+                Pedidos.findOneAndUpdate({_id: input.id}, input, {new: true}, (error) =>{
                     if(error) rejects(error)
-                    else resolve(nuevoPedido)
+                    else resolve("Se actualizo correctamente.")
                 })
             })
         }
