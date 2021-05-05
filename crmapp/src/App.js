@@ -14,6 +14,8 @@ import EditProduct from './component/Product/editProduct'
 
 import NuevoPedido from './component/Pedidos/NuevoPedido'
 import PedidosCliente from './component/Pedidos/PedidosCliente';
+import Registro from './component/auth/registro'
+import Login from './component/auth/Login'
 
 import Panel from './component/Panel/Panel'
 
@@ -44,6 +46,8 @@ class App extends Component {
                   <Route exact path="/products/edit/:id"><EditProduct /> </Route>
                   <Route exact path="/pedidos/nuevos/:id"><NuevoPedido /></Route>
                   <Route exact path="/pedidos/:id"><PedidosCliente /></Route>
+                  <Route exact path="/registro"><Registro /></Route>
+                  <Route exact path="/login"><Login /></Route>
                   <Route exact path="/panel"><Panel /></Route>
                 </Switch>
               </div>

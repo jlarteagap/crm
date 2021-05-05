@@ -109,4 +109,6 @@ type Mutation{
 
     nuevoPedido(input: PedidoInput) : Pedido
     actualizarEstado(input: PedidoInput): String
+
+    crearUsuario(usuario: String!, password: String!): String
 }

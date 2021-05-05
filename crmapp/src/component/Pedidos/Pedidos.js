@@ -12,7 +12,7 @@ const Pedido = (props) => {
     let border
     if (estado === "PENDIENTE" ){
         border = "border-light"
-    } else if (estado == "CANCELADO"){
+    } else if (estado === "CANCELADO"){
         border = "border-danger"
     } else {
         border = "border-success"

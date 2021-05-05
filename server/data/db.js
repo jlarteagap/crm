@@ -1,5 +1,6 @@
 import e from 'express';
 import mongoose from 'mongoose';
+import bcrypt, { hash } from 'bcrypt'
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/client', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -37,4 +38,30 @@ const Products = mongoose.model('product', productsSchema);
 
     const Pedidos = mongoose.model('pedido', pedidosSchema)
 
-export { Clients, Products, Pedidos};
+//Usuario
+    const usauriosSchema = new mongoose.Schema({
+        usuario: String,
+        password: String
+    })
+
+
+    // Hashear los password antes de guardarlos en la DB
+    usauriosSchema.pre('save', function(next){
+        if(!this.isModified('password')){
+            return next()
+        }
+        // usamos bcrypt para encriptar la contrasenha con valor de 10 rondas
+        bcrypt.genSalt(10, (err, salt) => {
+            if(err) return next(err)
+            // let password = this.password.toString()
+
+            bcrypt.hash(this.password, salt, (err, hash) =>{
+                if(err) return next(err)
+                this.password = hash
+                next()
+            })
+        })
+    })
+    const Usuarios = mongoose.model('usuarios', usauriosSchema)
+
+export { Clients, Products, Pedidos, Usuarios};

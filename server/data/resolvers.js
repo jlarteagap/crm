@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { Clients, Pedidos, Products } from './db'
+import { Clients, Pedidos, Products, Usuarios } from './db'
 
 export const resolvers = {
     Query: {
@@ -214,6 +214,21 @@ export const resolvers = {
                     else resolve("Se actualizo correctamente.")
                 })
             })
+        },
+        // Usuarios
+        crearUsuario: async(root, {usuario, password}) => {
+            // revisar si existe el usuario 
+            const existeUsuario = await  Usuarios.findOne({usuario})
+
+            if(existeUsuario) {
+                throw new Error('El usuario ya existe')
+            }
+            const nuevoUsuario = await new Usuarios({
+                usuario,
+                password
+            }).save()
+
+            return "Creado correctamente"
         }
     }
 }

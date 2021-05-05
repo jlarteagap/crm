@@ -11,16 +11,17 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.18.1",
+    "bcrypt": "^5.0.1",
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
-    "graphql-import": "^1.0.2",
+    "graphql-import": "^0.7.1",
     "graphql-tools": "^6.2.4",
     "mongoose": "^5.10.7",
     "nodemon": "^2.0.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "babel-cli": "^6.18.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-0": "^6.24.1"
   }
