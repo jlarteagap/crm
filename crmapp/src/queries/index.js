@@ -62,3 +62,14 @@ query obtenerPedidos($cliente: String){
     estado
   }
 }`
+
+export const TOP_CLIENTES = gql`
+query topClientes {
+  topClientes{
+    total,
+    cliente{
+      name
+    }
+  }
+}
+`
