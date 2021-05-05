@@ -33,6 +33,10 @@ type Email {
     email: String
 }
 
+type ClienteTotal{
+    total: Float
+    cliente: [Client]
+}
 enum CategoryClient{
     BASICO
     PREMIUM
@@ -49,6 +53,9 @@ type Query {
     totalProducts : String
     
     obtenerPedidos(cliente : String) : [Pedido]
+
+    # graficas
+    topClientes : [ClienteTotal]
 }
 
 input EmailInput{
