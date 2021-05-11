@@ -1,7 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { ApolloProvider } from 'react-apollo';
-import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import React, { Fragment } from 'react';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom'
 
 import Header from './component/Layout/Header'
 import Clients from './component/Clients/Clients'
@@ -19,24 +17,24 @@ import Login from './component/auth/Login'
 
 import Panel from './component/Panel/Panel'
 
-const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
-  cache: new InMemoryCache({
-    addTypename: false
-  }),
-  onError: ({netwoorkError, graphQLErrors}) => {
-    console.log('graphQLError', graphQLErrors);
-    console.log('networkError', netwoorkError)
-  }
-})
-class App extends Component {
-  render(){
+import Session from './component/session'
+
+
+const App = ({refetch, session}) => {
+
+
+    
+    const {obtenerUsuario} = session
+
+    const mensaje = (obtenerUsuario) ? `Bienvenido ${obtenerUsuario.usuario}` : <Redirect to="/login" />
+
     return(
-      <ApolloProvider client = {client}>
+      
         <Router>
           <Fragment>
-            <Header />
+            <Header session = {session}/>
               <div className="container">
+                <p className="text-right">{mensaje}</p>
                 <Switch>
                   <Route exact path="/clients"><Clients /></Route> 
                   <Route exact path="/clients/edit/:id"><EditClient /></Route>
@@ -47,15 +45,14 @@ class App extends Component {
                   <Route exact path="/pedidos/nuevos/:id"><NuevoPedido /></Route>
                   <Route exact path="/pedidos/:id"><PedidosCliente /></Route>
                   <Route exact path="/registro"><Registro /></Route>
-                  <Route exact path="/login"><Login /></Route>
+                  <Route exact path="/login" render={() => <Login refetch={refetch} />} />
                   <Route exact path="/panel"><Panel /></Route>
                 </Switch>
               </div>
           </Fragment>
         </Router>
-      </ApolloProvider>
     )
-  }
 }
 
-export default App;
+const RootSession = Session(App)
+export { RootSession }

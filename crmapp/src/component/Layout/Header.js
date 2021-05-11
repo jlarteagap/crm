@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import CerrarSession from './CerrarSession'
 
-const Header = () => (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between d-flex">
-        <div className="container">
-            <Link to="/" className="navbar-brand text-light font-weight-bold">CRM</Link>
+const Header = ({session}) => {
+
+const Autenticado = () => (
+    <Link to="/" className="navbar-brand text-light font-weight-bold">CRM</Link>
+) 
+
+const NoAutenticado = () =>(
+    <Fragment>
+        <Link to="/" className="navbar-brand text-light font-weight-bold">CRM</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navegacion" aria-controls="navegacion" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -29,10 +35,23 @@ const Header = () => (
                             <Link to="/products/new" className="dropdown-item">Agregar Productos</Link>
                         </div>
                     </li>
+                    <li className="nav-item">
+                        <CerrarSession />
+                    </li>
                 </ul>
             </div>
-        </div>
-    </nav>
-);
+    </Fragment>
+)
+
+    let nav = (session.obtenerUsuario) ? NoAutenticado() : Autenticado()
+    return(
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between d-flex">
+            <div className="container">
+                {nav}
+            </div>
+        </nav>
+   )
+}
+
 
 export default Header;

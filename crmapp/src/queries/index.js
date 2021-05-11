@@ -73,3 +73,11 @@ query topClientes {
   }
 }
 `
+
+export const OBTENER_USUARIO = gql`
+  query obtenerUsuario{
+    obtenerUsuario{
+      usuario
+    }
+  }
+`

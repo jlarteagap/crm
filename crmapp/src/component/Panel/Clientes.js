@@ -10,7 +10,6 @@ const Clientes = () => {
                 if(loading) return "cargando"
                 if(error) return (error.message)
 
-                console.log(data)
                 const totalGrafica = []
                 
                 data.topClientes.map((pedido, index)=> {

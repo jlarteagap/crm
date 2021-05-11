@@ -1,6 +1,18 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { Clients, Pedidos, Products, Usuarios } from './db'
+import bcrypt, { hash } from 'bcrypt'
+
+import dotenv from 'dotenv'
+dotenv.config({path: '../variables.env'})
+
+import jwt from 'jsonwebtoken'
+
+const crearToken = (usuarioLogin, secreto, expiresIn) => {
+    const {usuario} = usuarioLogin    
+    return jwt.sign({usuario}, secreto, {expiresIn})
+}
+
 
 export const resolvers = {
     Query: {
@@ -89,6 +101,14 @@ export const resolvers = {
                     else resolve(resultado)
                 })
             }) 
+        },
+        obtenerUsuario : ( root, args, {usuarioActual}) =>{
+            if(!usuarioActual){
+                return null
+            }
+
+            const usuario = Usuarios.findOne({ usuario: usuarioActual.usuario})
+            return usuario
         }
     },
     Mutation: {
@@ -229,6 +249,21 @@ export const resolvers = {
             }).save()
 
             return "Creado correctamente"
-        }
+        },
+        autenticarUsuario: async (root, {usuario, password}) => {
+            const nombreUsuario = await Usuarios.findOne({usuario})
+            
+            if(!nombreUsuario) {
+                throw new Error('Usuario no encontrado')
+            }
+            const passwordUsuario = await bcrypt.compare(password, nombreUsuario.password)
+
+            if(!passwordUsuario){
+                throw new Error('Password incorrecto')
+            }
+            return {
+                token: crearToken(nombreUsuario, process.env.SECRETO, '1hr')
+            }
+        },
     }
 }
