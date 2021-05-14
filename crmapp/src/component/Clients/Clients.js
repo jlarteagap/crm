@@ -43,12 +43,25 @@ class Clients extends Component {
         const {alert: {show, message} } = this.state;
         const showAlert = (show) ? <Exit message={message} /> : '';
 
+        // obtener di del vendedor
+        let idVendedor
+        const {rol } = this.props.session.obtenerUsuario
+
+        if(rol === "VENDEDOR"){
+            idVendedor = this.props.session.obtenerUsuario.id
+        }else{
+            idVendedor = ''
+        }
+
         return(    
-            <Query query = { CLIENTS_QUERY } pollInterval = {1000} variables = {{ limit: this.limit, offset: this.state.page.offset }}>
-        {({ loading, error, data, startPolling, stopPolling }) => {
+            <Query 
+                query = { CLIENTS_QUERY }
+                pollInterval = {1000} 
+                variables = {{ limit: this.limit, offset: this.state.page.offset, vendedor: idVendedor}}>
+            
+            {({ loading, error, data, startPolling, stopPolling }) => {
             if(loading) return "cargando...";
             if(error) return `Error ${error.message}`
-
             return(
                 <Fragment>
                     <h2>Listado de clientes</h2>

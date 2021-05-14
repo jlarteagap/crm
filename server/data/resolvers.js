@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 import { Clients, Pedidos, Products, Usuarios } from './db'
 import bcrypt, { hash } from 'bcrypt'
 
+// para filtrar por objetos id. 
+const {ObjectId} = mongoose.Types
+
 import dotenv from 'dotenv'
 dotenv.config({path: '../variables.env'})
 
@@ -16,9 +19,16 @@ const crearToken = (usuarioLogin, secreto, expiresIn) => {
 
 export const resolvers = {
     Query: {
-        getClients : (root, {limit, offset}) => {
-            return Clients.find({}).limit(limit).skip(offset)
+        getClients : (root, {limit, offset, vendedor}) => {
+            // filtramos por vendedor
+            let filtro
+            if(vendedor){
+                filtro = {vendedor: new ObjectId(vendedor)}
+            }
+            console.log(filtro)
+            return Clients.find(filtro).limit(limit).skip(offset)
         },
+            
         getClient : (root, { id }) => {
             return new Promise((resolve, object) => {
                 Clients.findById(id, (error, client) =>{
@@ -121,7 +131,8 @@ export const resolvers = {
                 emails : input.emails,
                 age : input.age,
                 category : input.category,
-                orders : input.orders
+                orders : input.orders,
+                vendedor: input.vendedor
             });
 
             newClient.id = newClient._id;
@@ -236,7 +247,7 @@ export const resolvers = {
             })
         },
         // Usuarios
-        crearUsuario: async(root, {usuario, password}) => {
+        crearUsuario: async(root, {usuario, nombre, password, rol }) => {
             // revisar si existe el usuario 
             const existeUsuario = await  Usuarios.findOne({usuario})
 
@@ -245,7 +256,9 @@ export const resolvers = {
             }
             const nuevoUsuario = await new Usuarios({
                 usuario,
-                password
+                nombre,
+                password,
+                rol
             }).save()
 
             return "Creado correctamente"

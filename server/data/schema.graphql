@@ -5,7 +5,8 @@ type Client {
     enterprise: String
     emails: [Email]
     age: Int
-    category: CategoryClient
+    category: CategoryClient,
+    vendedor: String
 }
 
 type Product {
@@ -42,13 +43,16 @@ type Token{
 }
 type Usuario{
     usuario: String!
+    id: ID
+    nombre: String
+    rol: String
 }
 enum CategoryClient{
     BASICO
     PREMIUM
 }
 type Query {
-    getClients(limit: Int, offset: Int): [Client]
+    getClients(limit: Int, offset: Int, vendedor: String): [Client]
     getClient(id:ID): Client
     totalClients : String
 
@@ -77,6 +81,7 @@ input ClientInput {
     emails: [EmailInput]
     age: Int!
     category: CategoryClient!
+    vendedor: ID
 }
 
 input ProductInput {
@@ -118,6 +123,6 @@ type Mutation{
     nuevoPedido(input: PedidoInput) : Pedido
     actualizarEstado(input: PedidoInput): String
 
-    crearUsuario(usuario: String!, password: String!): String
+    crearUsuario(usuario: String!, password: String!, rol: String!, nombre: String!): String
     autenticarUsuario(usuario: String!, password: String!): Token
 }

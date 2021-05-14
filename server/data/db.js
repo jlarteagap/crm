@@ -12,7 +12,8 @@ const clientsSchema = new mongoose.Schema({
     emails: Array,
     age: Number,
     category: String,
-    orders: Array
+    orders: Array,
+    vendedor: mongoose.Types.ObjectId
 });
 
 const Clients = mongoose.model('client', clientsSchema);
@@ -41,7 +42,9 @@ const Products = mongoose.model('product', productsSchema);
 //Usuario
     const usauriosSchema = new mongoose.Schema({
         usuario: String,
-        password: String
+        nombre: String,
+        password: String,
+        rol: String
     })
 
 

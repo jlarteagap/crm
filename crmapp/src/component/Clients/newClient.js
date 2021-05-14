@@ -42,8 +42,9 @@ class NewClient extends Component{
             emails: newEmail
         })
     }
-
+    
     render(){
+        const idVendedor = this.props.session.obtenerUsuario.id        
         return(
             <Fragment>
                 <h2 className="text-center">Nuevo Cliente</h2>
@@ -78,7 +79,8 @@ class NewClient extends Component{
                                 enterprise,
                                 emails, 
                                 category,
-                                age: Number(age)
+                                age: Number(age),
+                                vendedor: idVendedor
                             };
                             newclient({
                                 variables: {input }

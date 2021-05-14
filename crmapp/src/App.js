@@ -22,23 +22,20 @@ import Session from './component/session'
 
 const App = ({refetch, session}) => {
 
-
-    
     const {obtenerUsuario} = session
 
-    const mensaje = (obtenerUsuario) ? `Bienvenido ${obtenerUsuario.usuario}` : <Redirect to="/login" />
+    const mensaje = (obtenerUsuario) ? `Bienvenido ${obtenerUsuario.nombre}` : <Redirect to="/login" />
 
     return(
-      
         <Router>
           <Fragment>
             <Header session = {session}/>
               <div className="container">
                 <p className="text-right">{mensaje}</p>
                 <Switch>
-                  <Route exact path="/clients"><Clients /></Route> 
+                  <Route exact path="/clients" render={() => <Clients session={session}/>} />
                   <Route exact path="/clients/edit/:id"><EditClient /></Route>
-                  <Route exact path="/clients/new"><NewClient /></Route>
+                  <Route exact path="/clients/new" render={() => <NewClient session={session}/>} />
                   <Route exact path="/products"><Products /> </Route>
                   <Route exact path="/products/new"><NewProduct /> </Route>
                   <Route exact path="/products/edit/:id"><EditProduct /> </Route>

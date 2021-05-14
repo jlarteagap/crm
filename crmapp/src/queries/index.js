@@ -1,12 +1,13 @@
 import gql from 'graphql-tag'
 
 export const CLIENTS_QUERY = gql`
-    query getClients($limit:Int, $offset:Int){
-    getClients(limit: $limit, offset: $offset){
+    query getClients($limit:Int, $offset:Int, $vendedor: String){
+    getClients(limit: $limit, offset: $offset, vendedor: $vendedor){
       id
       name
       lastname
-      enterprise
+      enterprise,
+      vendedor
     }
     totalClients
   }
@@ -78,6 +79,9 @@ export const OBTENER_USUARIO = gql`
   query obtenerUsuario{
     obtenerUsuario{
       usuario
+      id
+      nombre
+      rol
     }
   }
 `
