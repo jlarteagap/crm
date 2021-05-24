@@ -1,14 +1,15 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import BotonRegistro from './BotonRegistro';
 import CerrarSession from './CerrarSession'
 
 const Header = ({session}) => {
 
-const Autenticado = () => (
+const NoAutenticado = () => (
     <Link to="/" className="navbar-brand text-light font-weight-bold">CRM</Link>
 ) 
 
-const NoAutenticado = () =>(
+const Autenticado = (session) =>(
     <Fragment>
         <Link to="/" className="navbar-brand text-light font-weight-bold">CRM</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navegacion" aria-controls="navegacion" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +36,9 @@ const NoAutenticado = () =>(
                             <Link to="/products/new" className="dropdown-item">Agregar Productos</Link>
                         </div>
                     </li>
+
                     <li className="nav-item">
+                        <BotonRegistro session={session} />
                         <CerrarSession />
                     </li>
                 </ul>
@@ -43,7 +46,7 @@ const NoAutenticado = () =>(
     </Fragment>
 )
 
-    let nav = (session.obtenerUsuario) ? NoAutenticado() : Autenticado()
+    let nav = (session.obtenerUsuario) ? Autenticado(session={session}) : NoAutenticado()
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between d-flex">
             <div className="container">
